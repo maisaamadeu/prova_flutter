@@ -48,6 +48,7 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 Expanded(child: Container()),
                 CustomTextFormField(
+                  border: true,
                   controller: userTextEditingController,
                   labelText: 'Usuário',
                   prefixIcon: const Icon(
@@ -62,6 +63,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const SizedBox(height: 20),
                 CustomTextFormField(
+                  border: true,
                   controller: passwordTextEditingController,
                   labelText: 'Senha',
                   prefixIcon: const Icon(

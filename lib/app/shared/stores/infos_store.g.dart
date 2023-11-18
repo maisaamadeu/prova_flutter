@@ -9,38 +9,6 @@ part of 'infos_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$InfosStore on _InfosStore, Store {
-  late final _$appStateAtom =
-      Atom(name: '_InfosStore.appState', context: context);
-
-  @override
-  AppState get appState {
-    _$appStateAtom.reportRead();
-    return super.appState;
-  }
-
-  @override
-  set appState(AppState value) {
-    _$appStateAtom.reportWrite(value, super.appState, () {
-      super.appState = value;
-    });
-  }
-
-  late final _$newInfoAtom =
-      Atom(name: '_InfosStore.newInfo', context: context);
-
-  @override
-  String get newInfo {
-    _$newInfoAtom.reportRead();
-    return super.newInfo;
-  }
-
-  @override
-  set newInfo(String value) {
-    _$newInfoAtom.reportWrite(value, super.newInfo, () {
-      super.newInfo = value;
-    });
-  }
-
   late final _$infosListAtom =
       Atom(name: '_InfosStore.infosList', context: context);
 
@@ -61,11 +29,11 @@ mixin _$InfosStore on _InfosStore, Store {
       ActionController(name: '_InfosStore', context: context);
 
   @override
-  void addInfo() {
+  void addInfo(String newInfo) {
     final _$actionInfo =
         _$_InfosStoreActionController.startAction(name: '_InfosStore.addInfo');
     try {
-      return super.addInfo();
+      return super.addInfo(newInfo);
     } finally {
       _$_InfosStoreActionController.endAction(_$actionInfo);
     }
@@ -83,10 +51,19 @@ mixin _$InfosStore on _InfosStore, Store {
   }
 
   @override
+  void editInfo(String newInfo, int index) {
+    final _$actionInfo =
+        _$_InfosStoreActionController.startAction(name: '_InfosStore.editInfo');
+    try {
+      return super.editInfo(newInfo, index);
+    } finally {
+      _$_InfosStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
-appState: ${appState},
-newInfo: ${newInfo},
 infosList: ${infosList}
     ''';
   }

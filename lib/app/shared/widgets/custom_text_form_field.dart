@@ -15,6 +15,12 @@ class CustomTextFormField extends StatelessWidget {
     this.textAlign,
     this.suffixIcon,
     this.onFieldSubmitted,
+    this.hintStyle,
+    this.contentStyle,
+    this.border,
+    this.multiLine = false,
+    this.enabled = true,
+    this.focusNode,
   });
 
   final TextEditingController controller;
@@ -29,6 +35,12 @@ class CustomTextFormField extends StatelessWidget {
   final bool? filled;
   final Color? fillColor;
   final TextAlign? textAlign;
+  final TextStyle? hintStyle;
+  final TextStyle? contentStyle;
+  final bool? border;
+  final bool multiLine;
+  final bool enabled;
+  final FocusNode? focusNode;
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +64,11 @@ class CustomTextFormField extends StatelessWidget {
             : Container(),
         SizedBox(height: labelText != null ? 10 : 0),
         TextFormField(
+          focusNode: focusNode,
+          enabled: enabled,
+          keyboardType: multiLine ? TextInputType.multiline : null,
+          maxLines: multiLine ? null : 1,
+          style: contentStyle,
           onFieldSubmitted: onFieldSubmitted != null
               ? (value) => onFieldSubmitted!(value)
               : null,
@@ -62,7 +79,9 @@ class CustomTextFormField extends StatelessWidget {
           decoration: InputDecoration(
             isDense: true,
             hintText: hintText,
-            border: const OutlineInputBorder(),
+            hintStyle: hintStyle,
+            border:
+                border == true ? const OutlineInputBorder() : InputBorder.none,
             filled: filled,
             fillColor: fillColor,
             prefixIcon: prefixIcon,

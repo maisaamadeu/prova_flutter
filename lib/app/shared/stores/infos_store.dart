@@ -1,28 +1,51 @@
 import 'package:mobx/mobx.dart';
-import 'package:prova_flutter/app/shared/enums/app_state.dart';
-part 'infos_store.g.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-// ATÉ PENSEI EM CRIAR UM MODEL PARA A INFORMAÇÃO, MAS JÁ QUE ELA É APENAS UMA STRING AO MEU VER NÃO VALIA A PENA :)
+part 'infos_store.g.dart';
 
 class InfosStore = _InfosStore with _$InfosStore;
 
 abstract class _InfosStore with Store {
-  @observable
-  AppState appState = AppState.idle;
+  late SharedPreferences _preferences;
 
-  @observable
-  String newInfo = '';
+  _InfosStore() {
+    _initSharedPreferences();
+  }
 
   @observable
   List<String> infosList = [];
 
   @action
-  void addInfo() {
+  void addInfo(String newInfo) {
     infosList.add(newInfo);
+    infosList = List.from(infosList);
+    _saveInfosList();
   }
 
   @action
   void removeInfo(int index) {
     infosList.removeAt(index);
+    infosList = List.from(infosList);
+    _saveInfosList();
+  }
+
+  @action
+  void editInfo(String newInfo, int index) {
+    infosList[index] = newInfo;
+    infosList = List.from(infosList);
+    _saveInfosList();
+  }
+
+  void _initSharedPreferences() async {
+    _preferences = await SharedPreferences.getInstance();
+    _loadInfosList();
+  }
+
+  void _loadInfosList() {
+    infosList = _preferences.getStringList('infosList') ?? [];
+  }
+
+  void _saveInfosList() {
+    _preferences.setStringList('infosList', infosList);
   }
 }
