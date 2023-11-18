@@ -1,4 +1,4 @@
-class UserValidator {
+class UsernameValidator {
   String? validate({String? user}) {
     if (user == null || user.isEmpty) {
       return 'O usuário é obrigatório';

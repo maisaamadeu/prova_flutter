@@ -1,31 +1,28 @@
-import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
-import 'package:prova_flutter/app/pages/home_page.dart';
+import 'package:prova_flutter/app/shared/enums/app_state.dart';
+import 'package:prova_flutter/app/shared/services/auth_service.dart';
 part 'auth_store.g.dart';
 
 class AuthStore = _AuthStore with _$AuthStore;
 
 abstract class _AuthStore with Store {
-  final formKey = GlobalKey<FormState>();
-
   @observable
-  bool isLoading = false;
+  AppState appState = AppState.idle;
+
+  String username = '';
+  String password = '';
 
   @action
-  Future<void> login(BuildContext context) async {
-    isLoading = true;
-    if (formKey.currentState!.validate()) {
-      await Future.delayed(const Duration(seconds: 2));
+  Future<String?> signIn() async {
+    appState = AppState.loading;
 
-      if (context.mounted) {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => const HomePage(),
-          ),
-        );
-        isLoading = false;
-      }
-    }
-    isLoading = false;
+    final result = await AuthService().signIn(
+      username: username,
+      password: password,
+    );
+
+    appState = AppState.loaded;
+
+    return result;
   }
 }
