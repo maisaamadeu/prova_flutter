@@ -64,6 +64,7 @@ class CustomTextFormField extends StatelessWidget {
             : Container(),
         SizedBox(height: labelText != null ? 10 : 0),
         TextFormField(
+          onTapOutside: (event) => FocusScope.of(context).unfocus(),
           focusNode: focusNode,
           enabled: enabled,
           keyboardType: multiLine ? TextInputType.multiline : null,
